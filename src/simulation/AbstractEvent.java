@@ -30,7 +30,7 @@ public abstract class AbstractEvent implements Event {
     public int compareTo(Event that) {
 					if(time() < that.time()){
 						return OCCURS_BEFORE;
-					} else if (time() > that.time())}{
+					} else if (time() > that.time()){
 						return OCCURS_AFTER;
 					}
 					
