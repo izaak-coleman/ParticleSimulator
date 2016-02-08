@@ -1,29 +1,19 @@
-package simulation;
+package simulation
 
 public abstract class Collision extends AbstractEvent implements Event{
 	
-	Particle particles[] = new Particle[]; // how to dimensionalise this array (use ArrayList)
-    
+	Particle [] particles; // how to dimensionalise this array (use ArrayList)
+  int [] initialHits;
+
     /**
      * Constructor for Collision
      */
     public Collision(double t, Particle[] ps) { 
-    	particles = ps;
-    }
-    
-    /** Subclasss
-     * public ParticleWallCollision(Wall A, Particle P, double time){
-     * 	ParticleList = [P]
-     * 	return new Collision(time, ParticleList)
-     * }
-     * 
-     * public TwoParticleCollision(Particle 1, Particle 2, double t){
-     * 	ParticleList = [P]	
-     * 	return new Collision(time, ParticleList)
-     * }
-     * 
-     * 
-     */
+			int [] initialHits = new int[ps.length()];
+			for(int i =0; i < particles.length(); i++){
+				initialHits[i] = ps[i].hits;
+			}
+    }  
 
 
     /**
@@ -31,7 +21,11 @@ public abstract class Collision extends AbstractEvent implements Event{
      */
     @Override
 	public boolean isValid(){
-    	
+		for(int i = 0; i < particles.length(); i++){
+			if(particles[i] != initialHits[i]){
+				return false;
+			}
+		}
 	}
 
     
