@@ -58,7 +58,6 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     	
     	if (particleArray.length() == 1){
     		Particle.collide(particleArray[0],  wall);
-    		
     	}
     	else (particleArray.length() == 2){
     		Particle.collide(particleArray[0], particleArray[1]);

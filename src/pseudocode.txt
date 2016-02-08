@@ -1,0 +1,40 @@
+Zoe & IZAAK CONQUER THE WORLD
+
+Algo:
+Min priority queue
+Log n
+Add, remove
+data will be of time [Event(time), PWC(time), PPC(time)]
+
+remove item with lowest time is valid and not w
+
+
+
+1. Define collisions and ticks
+	- done ticks
+
+	
+
+
+
+2. Particle Simulation
+	2a. Predict all collisions
+		- Find unsorted event list given state of the world
+			- append ticks to end of array
+	2b. Move events into tree (tree will need to have ability to add and remove)
+	2c. Implement happen
+		- Take event from queue
+		- Apply react_to to particle  
+	2d. Visualize
+		- update display
+
+
+aux: create tree data structure
+
+
+3. Minimum priority queue
+	3a. Remove invalid events
+	3b. Remove null events
+	3c. Sort in time 
+
+
