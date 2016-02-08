@@ -2,31 +2,18 @@ package simulation;
 
 public class ParticleWallCollision extends Collision implements Event {
 
-	public ParticleWallCollision() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public int compareTo(Event o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double time() {
-		// TODO Auto-generated method stub
-		return 0;
+	public ParticleWallCollision(Particle p1, Wall wall, double t) {
+		super(returnParticle(p1), wall, t); 
 	}
 
 	@Override
 	public void happen(ParticleEventHandler h) {
-		// TODO Auto-generated method stub
-
 	}
-
-	@Override
-	public boolean isValid() {
-		return false;
+	
+	private static Particle [] returnParticle(Particle p1) {
+		Particle ps[] = new Particle[1];
+		ps[0] = p1;
+		return ps;
 	}
 
 }

@@ -4,13 +4,17 @@ public class TwoParticleCollision extends Collision implements Event {
 
 
 	public TwoParticleCollision( Particle p1, Particle p2, double t) {
-		Particle ps[] = new Particle[2];		// make final ?
+		super(t, returnParticles(p1, p2));
 		
-		super(t, ps);							// constructor
+	}
+	private static Particle [] returnParticles(Particle p1, Particle p2){
+		Particle ps[] = new Particle[2];
+		ps[0] = p1;
+		ps[1] = p2;
+		return ps;
 	}
 	
 	public void happen(ParticleEventHandler sim){
 		sim.reactTo(this);
-		
 	}
 }

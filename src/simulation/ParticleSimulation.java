@@ -10,16 +10,20 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     
     private final ParticlesModel          model;
     private final ParticlesView           screen;
+    private MinPriorityQueue queue;
     
-    private int ticks;			// current system time
+    String simName;
+    private double ticks;			// current system time
     
     /**
      * Constructor.
      */
     public ParticleSimulation(String name, ParticlesModel m) {
-    	// Tick t1 = new Tick(1);		// initialize system time
-        // TODO implement constructor
-    	
+    	simName = name;
+    	model = m;
+    	Tick t = new Tick(1);
+    	ticks = t.time();
+    	screen = new ParticlesView(simName, model);
     }
 
     /**
@@ -34,6 +38,21 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
+        // List unorderedList = m.getAllCollision
+        // queue.createHeap(unorderedList);
+        
+        // Event nextEvent = queue.remove
+        // if Event.isValid == True
+        	// Event.happen(this);
+        	// List newCollisionp1;
+        	// List newCollisionp2;
+        	// m.(p1, t, newCollisionp1);
+        	// m.(p2, t, newCollisionp2);
+        	// for (event in collisionlists){
+        	// 		queue.add(event)
+        	// }
+        	// loop ^
        
         // For event in MinPriorityQueue()
         // if Event valid:
@@ -43,9 +62,8 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         	// call reactTo(CurrentEvent) 
         		// Takes in event type and calls collide: particle.collide
         			//particle.collide defines new coordinates post collision
-        // regenerate unsorted collision list
-        
-        
+        // regenerate new collision set for each of the two collided particles
+        // add just these new collisions to the heap - possibly invalidating later collisions
         // TODO complete implementing this method
     }
     
@@ -56,16 +74,13 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     public void reactTo(Collision col){
     	Particle particleArray[] = col.getParticles();
     	
-    	if (particleArray.length() == 1){
-    		Particle.collide(particleArray[0],  wall);
+    	if (particleArray.length == 1){
+    		Particle.collide(particleArray[0],  col.collisionWall);
     	}
-    	else (particleArray.length() == 2){
+    	else {
     		Particle.collide(particleArray[0], particleArray[1]);
     	}
-    	// for every particle in collision
-    	//	particle.collide();
-    	
+
+    
     }
-    
-    
 }
