@@ -26,7 +26,6 @@ public class ParticleWallCollision extends Collision implements Event {
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

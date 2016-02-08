@@ -31,10 +31,7 @@ public abstract class Collision extends AbstractEvent implements Event{
      */
     @Override
 	public boolean isValid(){
-		// Iterate through QUEUE
-		//	if either particle 1 or 2 has been involved in any previous collisions
-			// return false
-		// return true
+    	
 	}
 
     
