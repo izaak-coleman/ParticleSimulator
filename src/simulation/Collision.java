@@ -12,15 +12,20 @@ public abstract class Collision extends AbstractEvent implements Event{
     public Collision(double t, Particle[] ps) { 
     		super(t);
     		particles = ps;
-			int [] initialHits = new int[particles.length];
+			initialHits = new int[particles.length];
 			for(int i =0; i < particles.length; i++){
 				initialHits[i] = ps[i].collisions();
 			}
-    }  
+    } 
+    
     public Collision(Particle[] ps, Wall w, double t) {
     	super(t);
     	collisionWall = w;
     	particles = ps;
+		initialHits = new int[particles.length];
+		for(int i =0; i < particles.length; i++){
+			initialHits[i] = ps[i].collisions();
+		}
     	
     }
 
@@ -30,7 +35,13 @@ public abstract class Collision extends AbstractEvent implements Event{
      */
     @Override
 	public boolean isValid(){
+    	System.out.println("Are you valid colgirl ? ");
+			System.out.print(particles.length);
 		for(int i = 0; i < particles.length; i++){
+			System.out.println("You have this many collisions -> ");
+			System.out.println(initialHits[i]);
+			//System.out.print(initialHits[i]);
+			
 			if(particles[i].collisions() != initialHits[i]){
 				return false;
 			}

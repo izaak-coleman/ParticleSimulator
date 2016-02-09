@@ -1,7 +1,10 @@
 package simulation;
+import java.lang.Math.*;
 
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
+
+import utils.List;
 import utils.MinPriorityQueue;
 
 public class ParticleSimulation implements Runnable, ParticleEventHandler{
@@ -10,7 +13,7 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     
     private final ParticlesModel          model;
     private final ParticlesView           screen;
-    private MinPriorityQueue queue;
+    private MinPriorityQueue<Event> queue;
     
     String simName;
     private double ticks;			// current system time
@@ -24,6 +27,7 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     	Tick t = new Tick(1);
     	ticks = t.time();
     	screen = new ParticlesView(simName, model);
+    	queue = new MinPriorityQueue<Event>();
     }
 
     /**
@@ -39,11 +43,27 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
             e.printStackTrace();
         }
         
-        // List unorderedList = m.getAllCollision
-        // queue.createHeap(unorderedList);
+        Iterable <Collision> unorderedEvents = model.predictAllCollisions(ticks);
+        for(Collision c : unorderedEvents) {
+        	queue.add(c);
+        }
         
-        // Event nextEvent = queue.remove
-        // if Event.isValid == True
+        double endTime = Math.ceil(queue.timeOfLastEvent());
+        for(int tickTime = 2; tickTime <= endTime; tickTime++){
+        	queue.add(new Tick(tickTime));
+        }
+        
+        
+        System.out.println("Total number of events: ");
+        System.out.print(queue.size()-1);
+        //queue.createHeap(unorderedEvents);
+        
+        while(true){
+        	Event nextEvent = queue.remove(); // take min priority event
+        	if (nextEvent.isValid() == true){
+        		nextEvent.happen(this);
+        	}
+        }
         	// Event.happen(this);
         	// List newCollisionp1;
         	// List newCollisionp2;
@@ -53,22 +73,20 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         	// 		queue.add(event)
         	// }
         	// loop ^
-       
-        // For event in MinPriorityQueue()
-        // if Event valid:
-        	// Particle particlesInEvent = new event.getParticles;
-        	// move particles in event to collision coordinates
-        	// update visual display
-        	// call reactTo(CurrentEvent) 
-        		// Takes in event type and calls collide: particle.collide
-        			//particle.collide defines new coordinates post collision
-        // regenerate new collision set for each of the two collided particles
-        // add just these new collisions to the heap - possibly invalidating later collisions
-        // TODO complete implementing this method
     }
     
     public void reactTo(Tick nextTick ){
-    	double ticks = nextTick.time();		// update current time to event
+    	try {
+			Thread.sleep(FRAME_INTERVAL_MILLIS);
+		} catch (InterruptedException e) {
+			// Implement error code if we want 
+			e.printStackTrace();
+		}
+    	screen.update();
+    	double lastTime = queue.timeOfLastEvent();
+    	Tick newTick = new Tick(Math.ceil(lastTime));
+    	queue.add(newTick);
+    	ticks = nextTick.time();		// update current time to event
     }
    
     public void reactTo(Collision col){
@@ -76,11 +94,27 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     	
     	if (particleArray.length == 1){
     		Particle.collide(particleArray[0],  col.collisionWall);
+    		double ticks = col.time();
+    		particleArray[0].move(col.time() - ticks);	
+    		Iterable<Collision> newCollisions = model.predictCollisions(particleArray[0], ticks);
+    		for(Collision c : newCollisions) {
+    			queue.add(c);
+    		}
     	}
+    	
     	else {
     		Particle.collide(particleArray[0], particleArray[1]);
+    		particleArray[0].move(col.time() - ticks);		
+    		particleArray[1].move(col.time() - ticks);	
+    		Iterable<Collision> newCollisionsP1 = model.predictCollisions(particleArray[0], ticks);
+    		Iterable<Collision> newCollisionsP2 = model.predictCollisions(particleArray[1], ticks);
+    		for(Collision c : newCollisionsP1) {
+    			queue.add(c);
+    		}
+    		for(Collision c : newCollisionsP2) {
+    			queue.add(c);
+    		}
+    		double ticks = col.time();
     	}
-
-    
     }
 }

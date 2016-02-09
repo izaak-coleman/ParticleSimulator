@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 
+import simulation.Collision;
 import simulation.Event;
 
 public class MinPriorityQueue<T extends Comparable<T>> {
@@ -15,13 +16,15 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      */
     public MinPriorityQueue() {		// overload this constructor??
     	heap = new ArrayList<T>();
-    	heap.add(null);		// discard 0th position from heap
+    	heap.add(null);
+    	System.out.println("here");
+    	// discard 0th position from heap
         // Create a dynamic array
 				// parent of a[n] is a[n/2]
 				// children of a[n] are a[2*n+1]
 	}
     
-    public void createHeap(List<T> unorderedList){
+    public void createHeap(Iterable <Collision> unorderedList){
     	addNewEvents(1, unorderedList);
     	int middle = heap.size() / 2;
     	for(int i = middle; i <= 1; i--){
@@ -29,10 +32,15 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     	}
     }
     
-    private void addNewEvents(int start, List<T> unorderedList){
-    	for( T event : unorderedList) {
-    		heap.add(event);
+	private void addNewEvents(int start, Iterable <Collision> unorderedList){
+    	for( Collision event : unorderedList) {
+    		heap.add((T) event);
     	}
+    }
+    
+    public double timeOfLastEvent(){
+    	Comparable<T> lastEvent = heap.get(heap.size()-1);
+    	return (double) ((Event) lastEvent).time();
     }
 
     /**
@@ -48,9 +56,16 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      */
     public void add(T elem) {
     	heap.add(elem);
-    	int currentIndex = heap.size();
-    	int parIndex = currentIndex/2;
-    	while(heap.get(parIndex).compareTo(heap.get(currentIndex)) == 1 && currentIndex > 1){
+    	int currentIndex = heap.size()-1;
+    	int parIndex;
+    	if(currentIndex == 1){
+    		parIndex = currentIndex;
+    	} else {
+    		parIndex = currentIndex/2;
+    	}
+    	//System.out.print(currentIndex);
+    	//System.out.print(parIndex);
+    	while(currentIndex > 1 && heap.get(parIndex).compareTo(heap.get(currentIndex)) == 1){
     		T parent = heap.get(parIndex);
     		heap.set(parIndex, heap.get(currentIndex));
     		heap.set(currentIndex, parent);
@@ -68,8 +83,8 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     	
     	T nextEvent = heap.get(1);		// store the next event
     	
-    	heap.set(1, heap.get(heap.size()));	// set the rightmost leaf to root
-    	heap.remove(heap.size());			// remove element
+    	heap.set(1, heap.get(heap.size()-1));	// set the rightmost leaf to root
+    	heap.remove(heap.size()-1);			// remove element
     	
     	reorderTree(1);						// reorder tree from top down
 		return nextEvent;					// return highest priority event
@@ -88,33 +103,41 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     }
     private void reorderTree(int positionOfMovingNode){
     	// define the index of the parent, and two children
+    	// System.out.print(" Passed in ");
+    	// System.out.print(positionOfMovingNode);
     	int left = positionOfMovingNode * 2;
     	int right = positionOfMovingNode * 2 + 1;
     	int lowestPriorityIndex = positionOfMovingNode;
-    	
+    	/**
+    	System.out.print(" Left is  ");
+    	System.out.print(left);
+    	System.out.print(" Right is ");
+    	System.out.print(right);
+    	System.out.print(" LPI is ");
+    	System.out.print(lowestPriorityIndex);
+    	**/
     	
     	// Get the the data elements
     	T movingNode = heap.get(positionOfMovingNode);
     	// get movingNodes left child
-    	T leftChild = heap.get(left);
-    	// get moving nodes right child
-    	T rightChild = heap.get(right);
+    	T lowestPriority = heap.get(positionOfMovingNode);		// out of moving, left and right
     	
-    	T lowestPriority;		// out of moving, left and right
-    	
-    	
-    	if (left <= heap.size() && leftChild.compareTo(movingNode) == -1) {
-    		lowestPriorityIndex = left;
+    	if (left < heap.size()) {
+    		T leftChild = heap.get(left);
+    		if (leftChild.compareTo(movingNode) == -1) {
+    			lowestPriorityIndex = left;
+    			lowestPriority = heap.get(lowestPriorityIndex);
+    		}
     	}
-    
-    	// Update priority
-    	lowestPriority = heap.get(lowestPriorityIndex);
     	
-    	if (right <= heap.size() && rightChild.compareTo(lowestPriority) == -1) {
-    		lowestPriorityIndex = right;
+    	if (right < heap.size()) {
+    		// get moving nodes right child
+    		T rightChild = heap.get(right);
+    		if (rightChild.compareTo(lowestPriority) == -1) {
+    			lowestPriorityIndex = right;
+    			lowestPriority = heap.get(lowestPriorityIndex);
+    		}
     	}
-    	// Update Priority
-    	lowestPriority = heap.get(lowestPriorityIndex);
     	
     	if(lowestPriority != movingNode){
     		
@@ -125,29 +148,13 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     		heap.set(lowestPriorityIndex, store);
     		reorderTree(lowestPriorityIndex);
     	}
-    	
-    	
-    	
-//    	if (movingNode.time() > leftChild.time()) {
-//    		int newLocation = positionOfMovingNode * 2;
-//    		swap(movingNode, leftChild);
-//    		reorderTree(newLocation);
-//    	}
-//    	else (movingNode.time() > rightChild.time()) {
-//    		int newLocation = (positionOfMovingNode * 2) + 1;
-//    		swap(movingNode, rightChild);
-//    		reorderTree(newLocation);
-//    	}
-//    	
-//    	
-//    	
     }
 
     /**
      * Returns true if the queue is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return size == 0;
+        return size() <= 1;
     }
 
 		/** Functions to manage dynamic array, Added by ZVIC

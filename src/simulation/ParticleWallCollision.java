@@ -4,6 +4,7 @@ public class ParticleWallCollision extends Collision implements Event {
 
 	public ParticleWallCollision(Particle p1, Wall wall, double t) {
 		super(returnParticle(p1), wall, t); 
+	//	super(returnParticle(p1), wall, t); 
 	}
 
 	@Override

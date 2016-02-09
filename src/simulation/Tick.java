@@ -5,7 +5,7 @@ public class Tick extends AbstractEvent implements Event{
 	public Tick(double time) {
 		super(time); 		// AbstractEvent()
 	}
-	
+	@Override
 	public boolean isValid(){
 		return true;
 	}
