@@ -35,17 +35,14 @@ public abstract class Collision extends AbstractEvent implements Event{
      */
     @Override
 	public boolean isValid(){
-    	System.out.println("Are you valid colgirl ? ");
-			System.out.print(particles.length);
 		for(int i = 0; i < particles.length; i++){
-			System.out.println("You have this many collisions -> ");
-			System.out.println(initialHits[i]);
-			//System.out.print(initialHits[i]);
 			
 			if(particles[i].collisions() != initialHits[i]){
+				System.out.println("Invalid collision ");
 				return false;
 			}
 		}
+    	System.out.println("Valid collision ");
 		return true;
 	}
 

@@ -17,7 +17,6 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     public MinPriorityQueue() {		// overload this constructor??
     	heap = new ArrayList<T>();
     	heap.add(null);
-    	System.out.println("here");
     	// discard 0th position from heap
         // Create a dynamic array
 				// parent of a[n] is a[n/2]
@@ -84,6 +83,7 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     	T nextEvent = heap.get(1);		// store the next event
     	
     	heap.set(1, heap.get(heap.size()-1));	// set the rightmost leaf to root
+    	System.out.println("Removed Element");
     	heap.remove(heap.size()-1);			// remove element
     	
     	reorderTree(1);						// reorder tree from top down

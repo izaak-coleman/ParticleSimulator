@@ -31,5 +31,4 @@ public class BrownianSimulation {
                 new ParticleSimulation("Brownian Motion", model);        
         sim.run();
     }
-
 }
