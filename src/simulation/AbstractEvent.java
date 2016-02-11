@@ -28,13 +28,12 @@ public abstract class AbstractEvent implements Event {
      */
     @Override
     public int compareTo(Event that) {
-					if(time() < that.time()){
-						return OCCURS_BEFORE;
-					} else if (time() > that.time()){
-						return OCCURS_AFTER;
-					}
-					
-			return SIMULTANEOUS;	
+		if(time() < that.time()){
+			return OCCURS_BEFORE;
+		} else if (time() > that.time()){
+			return OCCURS_AFTER;
+		}
+		return SIMULTANEOUS;	
     }
 
 }

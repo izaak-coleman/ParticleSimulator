@@ -2,7 +2,7 @@ package simulation;
 
 public abstract class Collision extends AbstractEvent implements Event{
 	
-	Particle [] particles; // how to dimensionalise this array (use ArrayList)
+	Particle [] particles; 
 	int [] initialHits;
 	Wall collisionWall;
 
@@ -22,8 +22,6 @@ public abstract class Collision extends AbstractEvent implements Event{
     	super(t);
     	collisionWall = w;
     	particles = ps;
-    	System.out.println("PWC");
-    	System.out.print(particles.length);
 		initialHits = new int[particles.length];
 		for(int i =0; i < particles.length; i++){
 			initialHits[i] = particles[i].collisions();
@@ -37,11 +35,9 @@ public abstract class Collision extends AbstractEvent implements Event{
 	public boolean isValid(){
 		for(int i = 0; i < particles.length; i++){
 			if(particles[i].collisions() != initialHits[i]){
-				System.out.println("Invalid collision ");
 				return false;
 			}
 		}
-    	System.out.println("Valid collision ");
 		return true;
 	}
 

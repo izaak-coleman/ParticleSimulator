@@ -1,5 +1,5 @@
 package simulation;
-import java.lang.Math.*;
+import java.lang.Math;
 
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
@@ -53,13 +53,8 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         	queue.add(new Tick(tickTime));
         }
         
-        
-        //queue.createHeap(unorderedEvents);
-        
         while(true){
         	Event nextEvent = queue.remove(); // take min priority event
- //       	System.out.print(" Queeu Size ");
- //       	System.out.print(queue.size()-1);
         	if (nextEvent.isValid() == true){
         		double absDt = Math.abs(ticks - nextEvent.time());
         		nextEvent.happen(this);
@@ -86,11 +81,9 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
    
     public void reactTo(Collision col){
     	Particle particleArray[] = col.getParticles();
-    	System.out.println("Array length is ");
-    	System.out.print(particleArray.length);
+
     	if (particleArray.length == 1){
     		Particle.collide(particleArray[0],  col.collisionWall);
-    		System.out.println("WALL COLLISION AHHHH");
     		Iterable<Collision> newCollisions = model.predictCollisions(particleArray[0], ticks);
     		for(Collision c : newCollisions) {
     			queue.add(c);

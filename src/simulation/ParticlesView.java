@@ -49,14 +49,12 @@ public class ParticlesView implements Runnable {
             public Dimension getPreferredSize() {
                 return model.getSize();
             }
-            
         };
         screen.setBackground(Color.WHITE);
         frame.add(screen);
         frame.pack();
         frame.setVisible(true);
     }
-
 
     public void update() {
         screen.repaint();
