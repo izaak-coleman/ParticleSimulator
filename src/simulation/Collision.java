@@ -14,7 +14,7 @@ public abstract class Collision extends AbstractEvent implements Event{
     		particles = ps;
 			initialHits = new int[particles.length];
 			for(int i =0; i < particles.length; i++){
-				initialHits[i] = ps[i].collisions();
+				initialHits[i] = particles[i].collisions();
 			}
     } 
     
@@ -22,13 +22,13 @@ public abstract class Collision extends AbstractEvent implements Event{
     	super(t);
     	collisionWall = w;
     	particles = ps;
+    	System.out.println("PWC");
+    	System.out.print(particles.length);
 		initialHits = new int[particles.length];
 		for(int i =0; i < particles.length; i++){
-			initialHits[i] = ps[i].collisions();
+			initialHits[i] = particles[i].collisions();
 		}
-    	
     }
-
 
     /**
      * Returns true if this Collision is (still) valid.
@@ -36,7 +36,6 @@ public abstract class Collision extends AbstractEvent implements Event{
     @Override
 	public boolean isValid(){
 		for(int i = 0; i < particles.length; i++){
-			
 			if(particles[i].collisions() != initialHits[i]){
 				System.out.println("Invalid collision ");
 				return false;

@@ -58,26 +58,17 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         
         while(true){
         	Event nextEvent = queue.remove(); // take min priority event
-        	System.out.print(" Queeu Size ");
-        	System.out.print(queue.size()-1);
+ //       	System.out.print(" Queeu Size ");
+ //       	System.out.print(queue.size()-1);
         	if (nextEvent.isValid() == true){
         		double absDt = Math.abs(ticks - nextEvent.time());
+        		nextEvent.happen(this);
         		for(Particle p : model.getParticles()) {
        				p.move(absDt);
        			}
         		ticks = nextEvent.time();
-        		nextEvent.happen(this);
         	}
         }
-        	// Event.happen(this);
-        	// List newCollisionp1;
-        	// List newCollisionp2;
-        	// m.(p1, t, newCollisionp1);
-        	// m.(p2, t, newCollisionp2);
-        	// for (event in collisionlists){
-        	// 		queue.add(event)
-        	// }
-        	// loop ^
     }
     
     public void reactTo(Tick nextTick ){
@@ -95,20 +86,18 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
    
     public void reactTo(Collision col){
     	Particle particleArray[] = col.getParticles();
-    	
+    	System.out.println("Array length is ");
+    	System.out.print(particleArray.length);
     	if (particleArray.length == 1){
     		Particle.collide(particleArray[0],  col.collisionWall);
-  //  		particleArray[0].move(ticks - col.time());	
+    		System.out.println("WALL COLLISION AHHHH");
     		Iterable<Collision> newCollisions = model.predictCollisions(particleArray[0], ticks);
     		for(Collision c : newCollisions) {
     			queue.add(c);
     		}
-    	}
-    	
+    	}    	
     	else {
     		Particle.collide(particleArray[0], particleArray[1]);
-//    		particleArray[0].move(ticks - col.time());		
- //   		particleArray[1].move(ticks - col.time());	
     		Iterable<Collision> newCollisionsP1 = model.predictCollisions(particleArray[0], ticks);
     		Iterable<Collision> newCollisionsP2 = model.predictCollisions(particleArray[1], ticks);
     		for(Collision c : newCollisionsP1) {

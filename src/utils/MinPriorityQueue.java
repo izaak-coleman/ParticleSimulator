@@ -64,6 +64,7 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     	}
     	//System.out.print(currentIndex);
     	//System.out.print(parIndex);
+    	
     	while(currentIndex > 1 && heap.get(parIndex).compareTo(heap.get(currentIndex)) == 1){
     		T parent = heap.get(parIndex);
     		heap.set(parIndex, heap.get(currentIndex));
