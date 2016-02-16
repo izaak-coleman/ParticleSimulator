@@ -46,17 +46,29 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
         Iterable <Collision> unorderedEvents = model.predictAllCollisions(ticks);
         for(Collision c : unorderedEvents) {
         	queue.add(c);
+        	//System.out.print(c.time());
+        	//System.out.println("  ");
         }
         
-        double endTime = Math.ceil(queue.timeOfLastEvent());
-        for(int tickTime = 2; tickTime <= endTime; tickTime++){
+        
+        
+       	double endTime = Math.ceil(queue.timeOfLastEvent());
+       	/**System.out.print(queue.timeOfLastEvent());
+       	System.out.print(" ");
+       	System.out.print(queue.size());
+       	System.out.print(" ");
+        **/
+       	for(int tickTime = 2; tickTime <= endTime; tickTime++){
         	queue.add(new Tick(tickTime));
         }
+        
         
         while(true){
         	Event nextEvent = queue.remove(); // take min priority event
         	if (nextEvent.isValid() == true){
         		double absDt = Math.abs(ticks - nextEvent.time());
+        		//System.out.print(nextEvent.time());
+        		//System.out.println("");
         		nextEvent.happen(this);
         		for(Particle p : model.getParticles()) {
        				p.move(absDt);
@@ -76,6 +88,13 @@ public class ParticleSimulation implements Runnable, ParticleEventHandler{
     	screen.update();
     	double lastTime = queue.timeOfLastEvent();
     	Tick newTick = new Tick(Math.ceil(lastTime));
+    	//System.out.println("time is ");
+    	//System.out.print(lastTime);
+    	//System.out.println(" Processing tick ");
+    	//System.out.print(nextTick.time());
+    	//System.out.println("");
+    	//.out.println("= Adding a tick at time ");
+    	//System.out.print(newTick.time());
     	queue.add(newTick);
     }
    

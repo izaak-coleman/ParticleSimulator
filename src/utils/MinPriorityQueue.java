@@ -28,14 +28,37 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     }
     
 	private void addNewEvents(int start, Iterable <Collision> unorderedList){
+		int count = 0;
     	for( Collision event : unorderedList) {
 			heap.add((T) event);
+			System.out.print((T)event);
+			count++;
     	}
+    	System.out.println(" COUTNSADFKLASJFLKSJADFLKJSDFLKJSDLFKJS");
+    	System.out.print(count);
     }
     
     public double timeOfLastEvent(){
     	Comparable<T> lastEvent = heap.get(heap.size()-1);
+    	//System.out.println("Last event pulled from timeofLastEvent: ");
+    	
+    	//System.out.print(((Event) lastEvent).time());
     	return (double) ((Event) lastEvent).time();
+    }
+    
+    public void print(){
+    	System.out.println("SOH ===============================================");
+    	for(Comparable<T> e: heap){
+    		if(e == null){
+    			
+    		} else {
+    		//System.out.print(e);
+    		System.out.print(((Event)e).time());
+    		System.out.println(" ");
+    		}
+    	}
+    	System.out.print("EOH  +++++++++++++++++++++++++++++++++++++++++++++++++");
+    	System.out.println(" ");
     }
 
     /**
