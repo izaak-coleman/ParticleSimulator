@@ -26,7 +26,7 @@ public class ParticlesView implements Runnable {
         createAndShowGUI();        
     }
 
-    private void createAndShowGUI() {
+	private void createAndShowGUI() {
         JFrame frame = new JFrame(name);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     

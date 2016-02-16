@@ -13,6 +13,7 @@ public class TwoParticleCollision extends Collision implements Event {
 		return ps;
 	}
 	
+	// return array of particles involved in collision to Collision constructor
 	public void happen(ParticleEventHandler sim){
 		sim.reactTo(this);
 	}

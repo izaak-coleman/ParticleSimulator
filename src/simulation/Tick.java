@@ -3,8 +3,9 @@ package simulation;
 public class Tick extends AbstractEvent implements Event{
 
 	public Tick(double time) {
-		super(time); 		// AbstractEvent()
+		super(time); 
 	}
+	
 	@Override
 	public boolean isValid(){
 		return true;

@@ -2,10 +2,12 @@ package simulation;
 
 public abstract class AbstractEvent implements Event {
 
+	// comparison constants
 	static final int OCCURS_BEFORE = -1;
 	static final int OCCURS_AFTER = 1;
 	static final int SIMULTANEOUS = 0; 
 
+	// event time
 	double time;
 
     /**
@@ -35,5 +37,5 @@ public abstract class AbstractEvent implements Event {
 		}
 		return SIMULTANEOUS;	
     }
-
+   
 }
