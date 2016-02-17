@@ -53,10 +53,13 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     public T remove() {
     	T nextEvent = heap.get(1);				// store the next event
     	
-    	heap.set(1, heap.get(this.size()));	// copy the rightmost leaf to root
+    	heap.set(1, heap.get(this.size()));		// copy the rightmost leaf to root
     	
-    	heap.remove(this.size());				// remove rightmost leaf from leaf pos. 	
-    	reorderTree(1);							// reorder tree from top down
+    	if(this.size() > 1){
+    	   heap.remove(this.size());			// remove rightmost leaf from leaf pos. 
+    	   reorderTree(1);						// reorder tree from top down
+    	}
+    											
 		return nextEvent;						// return highest priority event
     }
     
@@ -101,6 +104,6 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      * Returns true if the queue is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return this.size() <= 1;
+        return this.size() == 0;
     }
 }
