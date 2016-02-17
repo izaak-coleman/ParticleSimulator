@@ -19,7 +19,7 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      * Returns the number of elements currently in the queue.
      */
     public int size() {
-        return heap.size();
+        return heap.size() - 1;
     }
     
     /**
@@ -27,7 +27,7 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      */
     public void add(T elem) {
     	heap.add(elem);
-    	int currentIndex = heap.size()-1;
+    	int currentIndex = this.size();
     	int parIndex;
     	
     	// set parent/child index if at tree root
@@ -53,9 +53,9 @@ public class MinPriorityQueue<T extends Comparable<T>> {
     public T remove() {
     	T nextEvent = heap.get(1);				// store the next event
     	
-    	heap.set(1, heap.get(heap.size()-1));	// copy the rightmost leaf to root
+    	heap.set(1, heap.get(this.size()));	// copy the rightmost leaf to root
     	
-    	heap.remove(heap.size()-1);				// remove rightmost leaf from leaf pos. 	
+    	heap.remove(this.size());				// remove rightmost leaf from leaf pos. 	
     	reorderTree(1);							// reorder tree from top down
 		return nextEvent;						// return highest priority event
     }
@@ -101,6 +101,6 @@ public class MinPriorityQueue<T extends Comparable<T>> {
      * Returns true if the queue is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return size() <= 1;
+        return this.size() <= 1;
     }
 }
